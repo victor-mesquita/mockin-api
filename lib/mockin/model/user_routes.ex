@@ -8,16 +8,19 @@ defmodule Mockin.Model.UserRoutes do
     alias Mockin.Model.User
     alias Mockin.Model.Route
 
-    @required_fields ~w(user_id route_id id statusCode httpMethod active response)a
+    @required_fields ~w(user_id route_id statusCode httpMethod active response)a
 
+    @primary_key false
     schema "user_routes" do
       field(:statusCode, :integer)
       field(:httpMethod, :string)
       field(:active, :boolean)
       field(:response, :string)
+      field(:user_id, :integer, primary_key: true)
+      field(:route_id, :integer, primary_key: true)
 
-      belongs_to(:user, User, foreign_key: :user_id)
-      belongs_to(:route, Route, foreign_key: :route_id)
+      # belongs_to(:user, User, foreign_key: :user_id)
+      # belongs_to(:route, Route, foreign_key: :route_id)
       # timestamps(inserted_at: :created_at)
     end
 

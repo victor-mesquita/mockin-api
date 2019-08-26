@@ -4,10 +4,24 @@ defmodule Mockin.Model.User do
   """
 
   use Ecto.Schema
+  import Ecto.Changeset
+
+  @required_fields ~w(msisdn)a
+  @optional_fields ~w(name)a
 
   schema "user" do
+    field(:msisdn, :string)
+    field(:name, :string)
+
     has_many(:user_routes, Mockin.Model.UserRoutes)
 
     timestamps(inserted_at: :created_at)
+  end
+
+  def changeset(user, attrs) do
+    user
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
+    |> unique_constraint(:msisdn, name: :user_msisdn_index)
   end
 end

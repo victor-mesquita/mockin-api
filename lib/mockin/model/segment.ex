@@ -1,15 +1,18 @@
-defmodule Mockin.Model.Route do
+defmodule Mockin.Model.Segment do
     @moduledoc """
-    The Route model.
+    The Segment model.
     """
 
     use Ecto.Schema
     import Ecto.Changeset
+    alias Mockin.Model.{SubSegment}
 
-    @required_fields ~w(path)a
+    @required_fields ~w(name)a
 
-    schema "route" do
-      field(:path, :string)
+    schema "segment" do
+      field(:name, :string)
+
+      has_many(:sub_seguement, SubSegment)
       # timestamps(inserted_at: :created_at)
     end
 

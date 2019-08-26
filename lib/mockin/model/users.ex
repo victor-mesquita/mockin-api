@@ -1,45 +1,27 @@
-# defmodule Mockin.Model.Users do
-#   @moduledoc """
-#   The boundry for the Users system
-#   """
+defmodule Mockin.Model.Users do
+  @moduledoc """
+  The boundry for the Users system
+  """
 
-#   alias Mockin.Repo
-#   alias Mockin.Accounts.User
+  import Ecto.Query, warn: false
+  alias Mockin.Repo
+  alias Mockin.Model.User
 
-#   def get_user!(id), do: Repo.get!(User, id)
-#   def get_by_username(username), do: Repo.get_by(User, username: username)
+  @default_routes_pagination_limit 10
 
-#   def update_user(user, attrs) do
-#     user
-#     |> User.changeset(attrs)
-#     |> Repo.update()
-#   end
+  def get_user!(id), do: Repo.get!(User, id)
 
-#   def follow(user, followee) do
-#     %UserFollower{}
-#     |> UserFollower.changeset(%{user_id: user.id, followee_id: followee.id})
-#     |> Repo.insert()
-#   end
+  def list(params) do
+    limit = params["limit"] || @default_routes_pagination_limit
+    offset = params["offset"] || 0
 
-#   def unfollow(user, followee) do
-#     relation =
-#       UserFollower
-#       |> Repo.get_by(user_id: user.id, followee_id: followee.id)
+    from(user in User, limit: ^limit, offset: ^offset)
+      |> Repo.all
+  end
 
-#     case relation do
-#       nil ->
-#         false
-
-#       relation ->
-#         Repo.delete(relation)
-#     end
-#   end
-
-#   def is_following?(user, followee) do
-#     if user != nil && followee != nil do
-#       UserFollower |> Repo.get_by(user_id: user.id, followee_id: followee.id) != nil
-#     else
-#       nil
-#     end
-#   end
-# end
+  def create_user(attrs \\ %{}) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert()
+  end
+end
