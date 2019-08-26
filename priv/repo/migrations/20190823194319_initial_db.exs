@@ -2,7 +2,21 @@ defmodule Mockin.Repo.Migrations.InitialDb do
   use Ecto.Migration
 
   def change do
+    create table(:segment) do
+      add(:name, :string, null: false)
+    end
+
+    create table(:sub_seguement) do
+      add(:name, :string, null: false)
+      add(:segment_id, references(:segment))
+    end
+
     create table(:user) do
+      add(:msisdn, :string, null: false)
+      add(:name, :string)
+      add(:segment_id, references(:segment))
+      add(:subsegment_id, references(:sub_seguement))
+
       timestamps(inserted_at: :created_at)
     end
 
@@ -21,5 +35,6 @@ defmodule Mockin.Repo.Migrations.InitialDb do
     end
 
     create(unique_index(:route, [:path]))
+    create(unique_index(:user, [:msisdn]))
   end
 end
