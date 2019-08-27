@@ -9,6 +9,7 @@ defmodule MockinWeb.UserController do
   def index(conn, params) do
     users =
       Users.list(params)
+      |> Repo.preload([:segment, :sub_segment])
 
     render(conn, "index.json", users: users)
   end
