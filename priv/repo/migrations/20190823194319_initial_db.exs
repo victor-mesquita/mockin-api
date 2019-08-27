@@ -6,7 +6,7 @@ defmodule Mockin.Repo.Migrations.InitialDb do
       add(:name, :string, null: false)
     end
 
-    create table(:sub_seguement) do
+    create table(:sub_segment) do
       add(:name, :string, null: false)
       add(:segment_id, references(:segment))
     end
@@ -15,7 +15,7 @@ defmodule Mockin.Repo.Migrations.InitialDb do
       add(:msisdn, :string, null: false)
       add(:name, :string)
       add(:segment_id, references(:segment))
-      add(:subsegment_id, references(:sub_seguement))
+      add(:subsegment_id, references(:sub_segment))
 
       timestamps(inserted_at: :created_at)
     end

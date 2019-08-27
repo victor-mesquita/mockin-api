@@ -2,6 +2,7 @@ defmodule MockinWeb.UserController do
   use MockinWeb, :controller
 
   alias Mockin.Model.Users
+  alias Mockin.Repo
 
   action_fallback(MockinWeb.FallbackController)
 
@@ -15,6 +16,10 @@ defmodule MockinWeb.UserController do
   def create(conn, %{"user" => user_params }) do
     case Users.create_user(user_params) do
       {:ok, user} ->
+
+        user =
+          user
+          |> Repo.preload([:segment, :sub_segment])
 
         conn
         |> put_status(:created)

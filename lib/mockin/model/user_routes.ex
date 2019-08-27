@@ -5,8 +5,6 @@ defmodule Mockin.Model.UserRoutes do
 
     use Ecto.Schema
     import Ecto.Changeset
-    alias Mockin.Model.User
-    alias Mockin.Model.Route
 
     @required_fields ~w(user_id route_id statusCode httpMethod active response)a
 

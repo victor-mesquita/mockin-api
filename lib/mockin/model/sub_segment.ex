@@ -10,15 +10,16 @@ defmodule Mockin.Model.SubSegment do
 
     @required_fields ~w(name segment_id)a
 
-    schema "sub_seguement" do
+    schema "sub_segment" do
       field(:name, :string)
       # field(:segment_id, :integer, primary_key: true)
 
       belongs_to(:segment, Segment, foreign_key: :segment_id)
+
     end
 
-    def changeset(user, attrs) do
-      user
+    def changeset(sub_segment, attrs) do
+      sub_segment
       |> cast(attrs, @required_fields)
       |> validate_required(@required_fields)
     end
