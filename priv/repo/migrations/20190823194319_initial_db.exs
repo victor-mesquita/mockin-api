@@ -22,11 +22,11 @@ defmodule Mockin.Repo.Migrations.InitialDb do
 
     create table(:route) do
       add(:path, :string, null: false)
+      add(:httpMethod, :string, null: false)
     end
 
     create table(:user_routes, primary_key: false) do
       add(:statusCode, :integer, null: false)
-      add(:httpMethod, :string, null: false)
       add(:active, :boolean, null: false)
       add(:response, :string)
 
