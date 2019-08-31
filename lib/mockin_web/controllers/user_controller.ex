@@ -1,7 +1,7 @@
 defmodule MockinWeb.UserController do
   use MockinWeb, :controller
 
-  alias Mockin.Model.Users
+  alias Mockin.Repository.Users
   alias Mockin.Repo
 
   action_fallback(MockinWeb.FallbackController)

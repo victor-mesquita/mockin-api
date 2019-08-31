@@ -9,12 +9,20 @@ defmodule MockinWeb.Router do
   scope "/", MockinWeb do
     pipe_through(:api)
 
+    # Route routes
     get("/route", RouteController, :index)
     post("/route", RouteController, :create)
 
-
+    # User routes
     get("/user", UserController, :index)
     post("/user", UserController, :create)
+
+    # Segment routes
+    get("/segment", SegmentController, :index)
+    # post("/segment", UserController, :create)
+
+    # SubSegment routes
+    get("/subsegment", SubSegmentController, :index)
 
     # get("/articles/feed", ArticleController, :feed)
 

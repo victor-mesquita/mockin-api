@@ -1,6 +1,10 @@
 defmodule MockinWeb.SegmentView do
   use MockinWeb, :view
-  alias MockinWeb.{FormatHelpers}
+  alias MockinWeb.{SegmentView, FormatHelpers}
+
+  def render("index.json", %{segments: segments}) do
+    %{segments: render_many(segments, SegmentView, "segment.json")}
+  end
 
   def render("segment.json", %{segment: segment}) do
     segment

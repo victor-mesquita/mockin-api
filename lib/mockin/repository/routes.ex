@@ -1,4 +1,4 @@
-defmodule Mockin.Model.Routes do
+defmodule Mockin.Repository.Routes do
   @moduledoc """
   The boundry for the Routes system
   """

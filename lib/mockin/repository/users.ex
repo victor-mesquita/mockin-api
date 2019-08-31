@@ -1,4 +1,4 @@
-defmodule Mockin.Model.Users do
+defmodule Mockin.Repository.Users do
   @moduledoc """
   The boundry for the Users system
   """

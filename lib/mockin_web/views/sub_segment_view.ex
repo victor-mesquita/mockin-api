@@ -1,13 +1,15 @@
 defmodule MockinWeb.SubSegmentView do
   use MockinWeb, :view
-  alias MockinWeb.{FormatHelpers}
+  alias MockinWeb.{SubSegmentView, FormatHelpers}
 
-  def render("subsegment.json", %{subsegment: subsegment}) do
-
-    if is_nil(subsegment) do
+  def render("index.json", %{sub_segments: sub_segments}) do
+    %{subSegments: render_many(sub_segments, SubSegmentView, "subsegment.json")}
+  end
+  def render("subsegment.json", %{sub_segment: sub_segment}) do
+    if is_nil(sub_segment) do
       nil
     else
-      subsegment
+      sub_segment
       |> Map.from_struct()
       |> Map.take([
         :id,

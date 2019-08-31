@@ -1,7 +1,7 @@
 defmodule MockinWeb.RouteController do
   use MockinWeb, :controller
 
-  alias Mockin.Model.Routes
+  alias Mockin.Repository.Routes
 
   action_fallback(MockinWeb.FallbackController)
 

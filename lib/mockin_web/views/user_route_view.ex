@@ -4,8 +4,7 @@ defmodule MockinWeb.UserRouteView do
 
   def render("index.json", %{userRoutes: userRoutes}) do
     %{
-      routes: render_many(userRoutes, UserRouteView, "user_routes.json"),
-      routesCount: length(userRoutes)
+      routes: render_many(userRoutes, UserRouteView, "user_routes.json")
     }
   end
 
