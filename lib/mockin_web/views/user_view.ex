@@ -22,8 +22,8 @@ defmodule MockinWeb.UserView do
     |> Map.take([:id, :msisdn, :name, :created_at, :updated_at])
     |> Map.put(:segment, SegmentView.render("segment.json", segment: user.segment))
     |> Map.put(
-      :subsegment,
-      SubSegmentView.render("subsegment.json", subsegment: user.sub_segment)
+      :subSegment,
+      SubSegmentView.render("subsegment.json", sub_segment: user.sub_segment)
     )
     |> FormatHelpers.camelize()
   end
