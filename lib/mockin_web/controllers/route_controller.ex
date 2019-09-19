@@ -21,7 +21,9 @@ defmodule MockinWeb.RouteController do
         |> render("show.json", route: route)
 
       {:error, changeset} ->
-        render(conn, MockinWeb.ChangesetView, "error.json", changeset: changeset)
+        conn
+        |> put_status(400)
+        |> render(MockinWeb.ChangesetView, "error.json", changeset: changeset)
     end
   end
 end

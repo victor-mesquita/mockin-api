@@ -17,7 +17,8 @@ defmodule MockinWeb.RouteView do
     |> Map.from_struct()
     |> Map.take([
       :id,
-      :path
+      :path,
+      :http_method
     ])
     |> FormatHelpers.camelize()
   end

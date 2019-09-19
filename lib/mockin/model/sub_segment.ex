@@ -15,7 +15,6 @@ defmodule Mockin.Model.SubSegment do
       # field(:segment_id, :integer, primary_key: true)
 
       belongs_to(:segment, Segment, foreign_key: :segment_id)
-
     end
 
     def changeset(sub_segment, attrs) do

@@ -6,11 +6,11 @@ defmodule Mockin.Model.UserRoutes do
     use Ecto.Schema
     import Ecto.Changeset
 
-    @required_fields ~w(user_id route_id statusCode active response)a
+    @required_fields ~w(user_id route_id status_code active response)a
 
     @primary_key false
     schema "user_routes" do
-      field(:statusCode, :integer)
+      field(:status_code, :integer)
       field(:active, :boolean)
       field(:response, :string)
       field(:user_id, :integer, primary_key: true)
