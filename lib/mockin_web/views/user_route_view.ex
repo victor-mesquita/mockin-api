@@ -4,22 +4,24 @@ defmodule MockinWeb.UserRouteView do
 
   def render("index.json", %{userRoutes: userRoutes}) do
     %{
-      routes: render_many(userRoutes, UserRouteView, "user_routes.json")
+      userRoutes: render_many(userRoutes, UserRouteView, "user_routes.json")
     }
   end
 
-  def render("show.json", %{route: route}) do
-    %{route: render_one(route, UserRouteView, "show.json")}
+  def render("show.json", %{user_route: user_route}) do
+    %{userRoute: render_one(user_route, UserRouteView, "user_route.json")}
   end
 
-  def render("user_route.json", %{route: route}) do
-    route
+  def render("user_route.json", %{user_route: user_route}) do
+    user_route
     |> Map.from_struct()
     |> Map.take([
-      :statusCode,
-      :httpMethod,
+      :status_code,
       :active,
-      :response
+      :response,
+      :user_id,
+      :route_id,
+      :id
     ])
     |> FormatHelpers.camelize()
   end

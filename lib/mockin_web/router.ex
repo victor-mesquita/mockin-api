@@ -6,12 +6,18 @@ defmodule MockinWeb.Router do
     plug(ProperCase.Plug.SnakeCaseParams)
   end
 
-  scope "/", MockinWeb do
+  scope "/api/", MockinWeb do
     pipe_through(:api)
 
     # Route routes
+    get("/route/:id", RouteController, :get)
     get("/route", RouteController, :index)
     post("/route", RouteController, :create)
+
+    # Route routes
+    get("/userRoute/:user_id/:route_id", UserRouteController, :get)
+    post("/userRoute/", UserRouteController, :create)
+    put("/userRoute/", UserRouteController, :update)
 
     # User routes
     get("/user", UserController, :index)
@@ -23,27 +29,17 @@ defmodule MockinWeb.Router do
 
     # SubSegment routes
     get("/subsegment", SubSegmentController, :index)
-
-    # get("/articles/feed", ArticleController, :feed)
-
-    # resources "/articles", ArticleController, except: [:new, :edit] do
-    #   resources("/comments", CommentController, except: [:new, :edit])
-    # end
-
-    # # to allow comments_path in test
-    # resources("/comments", CommentController, except: [:new, :edit])
-
-    # post("/articles/:slug/favorite", ArticleController, :favorite)
-    # delete("/articles/:slug/favorite", ArticleController, :unfavorite)
-
-    # get("/tags", TagController, :index)
-    # get("/user", UserController, :current_user)
-    # put("/user", UserController, :update)
-    # post("/users", UserController, :create)
-    # post("/users/login", SessionController, :create)
-
-    # get("/profiles/:username", ProfileController, :show)
-    # post("/profiles/:username/follow", ProfileController, :follow)
-    # delete("/profiles/:username/follow", ProfileController, :unfollow)
   end
+
+  scope "/", MockinWeb do
+    pipe_through(:api)
+
+
+    get "/*path", DynamicController, :get
+    post "/*path", DynamicController, :post
+    put "/*path", DynamicController, :put
+    patch "/*path", DynamicController, :patch
+    delete "/*path", DynamicController, :delete
+  end
+
 end

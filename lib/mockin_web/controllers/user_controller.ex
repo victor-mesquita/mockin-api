@@ -27,7 +27,9 @@ defmodule MockinWeb.UserController do
         |> render("show.json", user: user)
 
       {:error, changeset} ->
-        render(conn, MockinWeb.ChangesetView, "error.json", changeset: changeset)
+        conn
+        |> put_status(400)
+        |> render(MockinWeb.ChangesetView, "error.json", changeset: changeset)
     end
   end
 end

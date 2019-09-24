@@ -5,7 +5,7 @@ defmodule MockinWeb.SubSegmentController do
 
   action_fallback(MockinWeb.FallbackController)
 
-  def index(conn, params) do
+  def index(conn, _) do
     sub_segments = Segments.list_subsegments(conn.query_params)
     render(conn, "index.json", sub_segments: sub_segments)
   end

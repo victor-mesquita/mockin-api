@@ -12,6 +12,13 @@ defmodule MockinWeb.RouteController do
     render(conn, "index.json", routes: routes)
   end
 
+  def get(conn, params) do
+    route =
+      Routes.get_route!(params["id"])
+
+    render(conn, "show.json", route: route)
+  end
+
   def create(conn, %{"route" => route_params }) do
     case Routes.create_route(route_params) do
       {:ok, route} ->

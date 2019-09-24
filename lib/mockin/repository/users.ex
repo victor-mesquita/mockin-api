@@ -11,6 +11,12 @@ defmodule Mockin.Repository.Users do
 
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_by_msisdn(msisdn) do
+    from(user in User, where: user.msisdn == ^msisdn)
+    |> Repo.all
+    |> List.first
+  end
+
   def list(params) do
     limit = params["limit"] || @default_routes_pagination_limit
     offset = params["offset"] || 0

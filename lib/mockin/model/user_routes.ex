@@ -8,7 +8,6 @@ defmodule Mockin.Model.UserRoutes do
 
     @required_fields ~w(user_id route_id status_code active response)a
 
-    @primary_key false
     schema "user_routes" do
       field(:status_code, :integer)
       field(:active, :boolean)
@@ -23,5 +22,7 @@ defmodule Mockin.Model.UserRoutes do
       |> validate_required(@required_fields)
       |> unique_constraint(:user_id, name: :user_route_msisdn_key)
       |> unique_constraint(:route_id, name: :user_route_pkey)
+      |> foreign_key_constraint(:user_id)
+      |> foreign_key_constraint(:route_id)
     end
   end
