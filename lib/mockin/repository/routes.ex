@@ -5,7 +5,7 @@ defmodule Mockin.Repository.Routes do
 
   import Ecto.Query, warn: false
   alias Mockin.Repo
-  alias Mockin.Model.{Route, UserRoutes}
+  alias Mockin.Model.{Route, RouteDetail}
   alias Mockin.Repository.Users
 
   @default_pagination_limit 10
@@ -19,25 +19,25 @@ defmodule Mockin.Repository.Routes do
     |> List.first
   end
 
-  def get_user_route(user_id, route_id) do
-    from(userRoute in UserRoutes, where: userRoute.user_id == ^user_id and userRoute.route_id == ^route_id)
+  def get_route_detail(user_id, route_id) do
+    from(user_detail in RouteDetail, where: user_detail.user_id == ^user_id and user_detail.route_id == ^route_id)
     |> Repo.all
     |> List.first
   end
 
-  def get_user_route_by_msisdn(msisdn, route_id) do
+  def get_route_detail_by_msisdn(msisdn, route_id) do
     user = Users.get_by_msisdn(msisdn)
 
-    from(userRoute in UserRoutes, where: userRoute.user_id == ^user.id and userRoute.route_id == ^route_id)
+    from(user_detail in RouteDetail, where: user_detail.user_id == ^user.id and user_detail.route_id == ^route_id)
     |> Repo.all
     |> List.first
   end
 
-  def list_user_routes(params) do
+  def list_route_detail(params) do
     limit = params["limit"] || @default_pagination_limit
     offset = params["offset"] || @default_offset
 
-    from(route in UserRoutes, limit: ^limit, offset: ^offset)
+    from(route_detail in RouteDetail, limit: ^limit, offset: ^offset)
       |> Repo.all
   end
 
@@ -55,15 +55,15 @@ defmodule Mockin.Repository.Routes do
     |> Repo.insert()
   end
 
-  def create_user_route(attrs \\ %{}) do
-    %UserRoutes{}
-    |> UserRoutes.changeset(attrs)
+  def create_route_detail(attrs \\ %{}) do
+    %RouteDetail{}
+    |> RouteDetail.changeset(attrs)
     |> Repo.insert()
   end
 
   def update_user_route(user_route, attrs) do
     user_route
-    |> UserRoutes.changeset(attrs)
+    |> RouteDetail.changeset(attrs)
     |> Repo.update()
   end
 end

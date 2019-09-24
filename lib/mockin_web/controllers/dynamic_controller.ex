@@ -65,15 +65,15 @@ defmodule MockinWeb.DynamicController do
       conn
       |> send_resp(404, "")
     else
-      user_route = Routes.get_user_route_by_msisdn(user, route.id)
+      route_detail = Routes.get_route_detail_by_msisdn(user, route.id)
 
-      if user_route == nil do
+      if route_detail == nil do
         conn
         |> send_resp(404, "")
       else
         conn
         |> put_resp_header("content-type", "application/json; charset=utf-8")
-        |> send_resp(user_route.status_code, user_route.response)
+        |> send_resp(route_detail.status_code, route_detail.response)
       end
     end
   end

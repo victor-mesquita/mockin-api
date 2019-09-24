@@ -15,9 +15,9 @@ defmodule MockinWeb.Router do
     post("/route", RouteController, :create)
 
     # Route routes
-    get("/userRoute/:user_id/:route_id", UserRouteController, :get)
-    post("/userRoute/", UserRouteController, :create)
-    put("/userRoute/", UserRouteController, :update)
+    get("/routeDetail/:user_id/:route_id", RouteDetailController, :get)
+    post("/routeDetail/", RouteDetailController, :create)
+    put("/routeDetail/", RouteDetailController, :update)
 
     # User routes
     get("/user", UserController, :index)

@@ -1,4 +1,4 @@
-defmodule MockinWeb.UserRouteController do
+defmodule MockinWeb.RouteDetailController do
   use MockinWeb, :controller
 
   alias Mockin.Repository.{Routes}
@@ -9,26 +9,26 @@ defmodule MockinWeb.UserRouteController do
     user_id = params["user_id"]
     route_id = params["route_id"]
 
-    user_route = Routes.get_user_route(user_id, route_id)
+    route_detail = Routes.get_route_detail(user_id, route_id)
 
-    render(conn, "show.json", user_route: user_route)
+    render(conn, "show.json", route_detail: route_detail)
   end
 
   def index(conn, params) do
-    routes = Routes.list_user_routes(params)
+    route_details = Routes.list_route_detail(params)
 
-    render(conn, "index.json", userRoutes: routes)
+    render(conn, "index.json", route_details: route_details)
   end
 
   def create(conn, params) do
 
-    route_params = params["user_route"]
+    route_params = params["route_detail"]
 
-    case Routes.create_user_route(route_params) do
-      {:ok, route} ->
+    case Routes.create_route_detail(route_params) do
+      {:ok, route_detail} ->
         conn
         |> put_status(:created)
-        |> render("show.json", user_route: route)
+        |> render("show.json", route_detail: route_detail)
 
       {:error, changeset} ->
         conn
@@ -38,17 +38,17 @@ defmodule MockinWeb.UserRouteController do
   end
 
   def update(conn, params) do
-    route_params = params["user_route"]
+    route_params = params["route_detail"]
     user_id = route_params["user_id"]
     route_id = route_params["route_id"]
 
-    user_route = Routes.get_user_route(user_id, route_id)
+    route_detail = Routes.get_route_detail(user_id, route_id)
 
-    case Routes.update_user_route(user_route, route_params) do
-      {:ok, route} ->
+    case Routes.update_user_route(route_detail, route_params) do
+      {:ok, route_detail} ->
         conn
         |> put_status(200)
-        |> render("show.json", user_route: route)
+        |> render("show.json", route_detail: route_detail)
 
       {:error, changeset} ->
         conn

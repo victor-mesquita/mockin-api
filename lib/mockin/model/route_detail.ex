@@ -1,6 +1,6 @@
-defmodule Mockin.Model.UserRoutes do
+defmodule Mockin.Model.RouteDetail do
     @moduledoc """
-    The User Routes model.
+    The Route Detail model.
     """
 
     use Ecto.Schema
@@ -8,7 +8,7 @@ defmodule Mockin.Model.UserRoutes do
 
     @required_fields ~w(user_id route_id status_code active response)a
 
-    schema "user_routes" do
+    schema "route_details" do
       field(:status_code, :integer)
       field(:active, :boolean)
       field(:response, :string)

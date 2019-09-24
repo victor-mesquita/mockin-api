@@ -25,7 +25,7 @@ defmodule Mockin.Repo.Migrations.InitialDb do
       add(:http_method, :string, null: false)
     end
 
-    create table(:user_routes) do
+    create table(:route_details) do
       add(:status_code, :integer, null: false)
       add(:active, :boolean, null: false)
       add(:response, :string)
