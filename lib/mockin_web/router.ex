@@ -20,8 +20,10 @@ defmodule MockinWeb.Router do
     put("/routeDetail/", RouteDetailController, :update)
 
     # User routes
+    get("/user/:id", UserController, :get)
     get("/user", UserController, :index)
     post("/user", UserController, :create)
+    put("/user", UserController, :update)
 
     # Segment routes
     get("/segment", SegmentController, :index)

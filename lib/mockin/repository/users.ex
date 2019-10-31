@@ -30,4 +30,11 @@ defmodule Mockin.Repository.Users do
     |> User.changeset(attrs)
     |> Repo.insert()
   end
+
+
+  def update_user(user, attrs) do
+    user
+    |> User.changeset(attrs)
+    |> Repo.update()
+  end
 end
