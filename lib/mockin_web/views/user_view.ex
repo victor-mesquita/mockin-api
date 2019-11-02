@@ -38,8 +38,8 @@ defmodule MockinWeb.UserView do
     |> Map.put(:created_at, NaiveDateTime.to_iso8601(user.created_at))
     |> Map.put(:updated_at, NaiveDateTime.to_iso8601(user.updated_at))
     |> Map.take([:id, :msisdn, :name, :created_at, :updated_at])
-    |> Map.put(:segment_id, user.segment.id)
-    |> Map.put(:sub_segment_id, user.sub_segment.id)
+    |> Map.put(:segment_id, user.segment_id)
+    |> Map.put(:sub_segment_id, user.subsegment_id)
     |> FormatHelpers.camelize()
   end
 end
