@@ -1,6 +1,5 @@
 defmodule MockinWeb.DynamicController do
   use MockinWeb, :controller
-
   alias Mockin.Repository.Routes
 
   action_fallback(MockinWeb.FallbackController)
@@ -41,17 +40,17 @@ defmodule MockinWeb.DynamicController do
   end
 
   def get_user_from_header(conn) do
-    user =
-      conn
-      |> get_req_header("authorization")
-      |> List.first
+    user_id = conn
+    |> get_req_header("authorization")
+    |> List.first
+    |> String.replace(~r"[A-Za-z /]", "")
 
-    if user == nil do
+    if user_id == "" do
       conn
       |> put_resp_header("content-type", "application/json; charset=utf-8")
       |> send_resp(404, "Defina um usuario no header authorization, ex: Authorization: 219999999999")
     else
-      user
+      user_id
     end
   end
 
@@ -65,6 +64,7 @@ defmodule MockinWeb.DynamicController do
       conn
       |> send_resp(404, "")
     else
+      try do
       route_detail = Routes.get_route_detail_by_msisdn(user, route.id)
 
       if route_detail == nil do
@@ -75,6 +75,11 @@ defmodule MockinWeb.DynamicController do
         |> put_resp_header("content-type", "application/json; charset=utf-8")
         |> send_resp(route_detail.status_code, route_detail.response)
       end
+     after
+        conn
+        |> send_resp(400, "Falha ao retornar dados para esse usuário")
+      end
+
     end
   end
 end

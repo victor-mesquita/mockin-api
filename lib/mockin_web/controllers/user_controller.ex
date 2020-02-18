@@ -59,4 +59,21 @@ defmodule MockinWeb.UserController do
         |> render(MockinWeb.ChangesetView, "error.json", changeset: changeset)
     end
   end
+
+  def delete(conn, params) do
+    user_id = params["id"]
+
+    user = Users.get_user!(user_id)
+
+    case Users.delete_user(user) do
+      {:ok, _} ->
+        conn
+        |> send_resp(200, "{}")
+
+      {:error, changeset} ->
+        conn
+        |> put_status(400)
+        |> render(MockinWeb.ChangesetView, "error.json", changeset: changeset)
+    end
+  end
 end

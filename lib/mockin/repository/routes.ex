@@ -19,6 +19,15 @@ defmodule Mockin.Repository.Routes do
     |> List.first
   end
 
+  def delete_route(route) do
+    Repo.delete(route)
+  end
+
+  def delete_route_detail(route_detail) do
+    Repo.delete(route_detail)
+  end
+
+  @spec get_route_detail(any, any) :: any
   def get_route_detail(user_id, route_id) do
     from(user_detail in RouteDetail, where: user_detail.user_id == ^user_id and user_detail.route_id == ^route_id)
     |> Repo.all
@@ -53,6 +62,13 @@ defmodule Mockin.Repository.Routes do
     %Route{}
     |> Route.changeset(attrs)
     |> Repo.insert()
+  end
+
+
+  def update_route(route, attrs) do
+    route
+    |> Route.changeset(attrs)
+    |> Repo.update()
   end
 
   def create_route_detail(attrs \\ %{}) do

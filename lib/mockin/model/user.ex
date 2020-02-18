@@ -17,7 +17,7 @@ defmodule Mockin.Model.User do
     belongs_to(:segment, Segment,  foreign_key: :segment_id)
     belongs_to(:sub_segment, SubSegment, foreign_key: :subsegment_id)
 
-    has_many(:user_routes, Mockin.Model.RouteDetail)
+    has_many(:user_routes, Mockin.Model.RouteDetail, on_delete: :delete_all)
 
     timestamps(inserted_at: :created_at)
   end

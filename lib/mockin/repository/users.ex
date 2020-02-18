@@ -17,6 +17,10 @@ defmodule Mockin.Repository.Users do
     |> List.first
   end
 
+  def delete_user(user) do
+    Repo.delete(user)
+  end
+
   def list(params) do
     limit = params["limit"] || @default_routes_pagination_limit
     offset = params["offset"] || 0

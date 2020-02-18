@@ -56,4 +56,22 @@ defmodule MockinWeb.RouteDetailController do
         |> render(MockinWeb.ChangesetView, "error.json", changeset: changeset)
     end
   end
+
+  def delete(conn, params) do
+    user_id = params["user_id"]
+    route_id = params["route_id"]
+
+    route_detail = Routes.get_route_detail(user_id, route_id)
+
+    case Routes.delete_route_detail(route_detail) do
+      {:ok, _} ->
+        conn
+        |> send_resp(200, "{}")
+
+      {:error, changeset} ->
+        conn
+        |> put_status(400)
+        |> render(MockinWeb.ChangesetView, "error.json", changeset: changeset)
+    end
+  end
 end
