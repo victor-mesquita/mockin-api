@@ -9,7 +9,6 @@ defmodule MockinWeb.UserController do
   def index(conn, params) do
     users =
       Users.list(params)
-      |> Repo.preload([:segment, :sub_segment])
 
     render(conn, "index.json", users: users)
   end
@@ -17,7 +16,6 @@ defmodule MockinWeb.UserController do
   def get(conn, params) do
     user =
       Users.get_user!(params["id"])
-      |> Repo.preload([:segment, :sub_segment])
 
     render(conn, "show_minimal.json", user: user)
   end
@@ -44,10 +42,6 @@ defmodule MockinWeb.UserController do
   def create(conn, %{"user" => user_params }) do
     case Users.create_user(user_params) do
       {:ok, user} ->
-
-        user =
-          user
-          |> Repo.preload([:segment, :sub_segment])
 
         conn
         |> put_status(:created)

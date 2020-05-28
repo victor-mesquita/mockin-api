@@ -43,14 +43,16 @@ defmodule MockinWeb.DynamicController do
     user_id = conn
     |> get_req_header("authorization")
     |> List.first
-    |> String.replace(~r"[A-Za-z /]", "")
 
-    if user_id == "" do
+    IO.puts "Usuário identificado: #{user_id}"
+
+    if user_id == nil do
       conn
       |> put_resp_header("content-type", "application/json; charset=utf-8")
       |> send_resp(404, "Defina um usuario no header authorization, ex: Authorization: 219999999999")
     else
-      user_id
+      user_without_bearer = user_id
+        |> String.replace("Bearer ", "")
     end
   end
 

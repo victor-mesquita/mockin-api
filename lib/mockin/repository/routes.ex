@@ -36,7 +36,7 @@ defmodule Mockin.Repository.Routes do
 
   def get_route_detail_by_msisdn(msisdn, route_id) do
     user = Users.get_by_msisdn(msisdn)
-
+    IO.puts "Usuário identificado #{msisdn}"
     from(user_detail in RouteDetail, where: user_detail.user_id == ^user.id and user_detail.route_id == ^route_id)
     |> Repo.all
     |> List.first

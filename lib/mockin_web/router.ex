@@ -28,13 +28,6 @@ defmodule MockinWeb.Router do
     post("/user", UserController, :create)
     put("/user", UserController, :update)
     delete("/user/:id", UserController, :delete)
-
-    # Segment routes
-    get("/segment", SegmentController, :index)
-    # post("/segment", UserController, :create)
-
-    # SubSegment routes
-    get("/subsegment", SubSegmentController, :index)
   end
 
   scope "/", MockinWeb do
