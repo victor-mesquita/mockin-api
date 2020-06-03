@@ -11,16 +11,10 @@ defmodule MockinWeb.Router do
 
     # Route routes
     get("/route/:id", RouteController, :get)
-    get("/route", RouteController, :index)
+    get("/route/", RouteController, :index)
     post("/route", RouteController, :create)
     put("/route", RouteController, :update)
     delete("/route/:id", RouteController, :delete)
-
-    # Route routes
-    get("/routeDetail/:user_id/:route_id", RouteDetailController, :get)
-    post("/routeDetail/", RouteDetailController, :create)
-    put("/routeDetail/", RouteDetailController, :update)
-    delete("/routeDetail/:id", RouteDetailController, :delete)
 
     # User routes
     get("/user/:id", UserController, :get)

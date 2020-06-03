@@ -13,7 +13,7 @@ defmodule Mockin.Model.User do
     field(:msisdn, :string)
     field(:name, :string)
 
-    has_many(:user_routes, Mockin.Model.RouteDetail, on_delete: :delete_all)
+    has_many(:user_routes, Mockin.Model.Route, on_delete: :delete_all)
 
     timestamps(inserted_at: :created_at)
   end

@@ -23,6 +23,7 @@ defmodule MockinWeb do
       import Plug.Conn
       import MockinWeb.Router.Helpers
       import MockinWeb.Gettext
+      plug BetterParams
     end
   end
 
