@@ -3,7 +3,7 @@ use Mix.Config
 config :mockin, MockinWeb.Endpoint,
   load_from_system_env: true,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "https", host: "https://real-world-example.herokuapp.com/", port: 443],
+  url: [scheme: "https", host: "https://mockin.app/", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE")
 

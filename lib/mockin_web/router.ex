@@ -1,13 +1,14 @@
 defmodule MockinWeb.Router do
   use MockinWeb, :router
 
-  pipeline :api do
+  pipeline :mockinapi do
     plug(:accepts, ["json"])
     plug(ProperCase.Plug.SnakeCaseParams)
   end
 
-  scope "/api/", MockinWeb do
-    pipe_through(:api)
+
+  scope "/mockinapi/", MockinWeb do
+    pipe_through(:mockinapi)
 
     # Route routes
     get("/route/:id", RouteController, :get)
@@ -22,6 +23,11 @@ defmodule MockinWeb.Router do
     post("/user", UserController, :create)
     put("/user", UserController, :update)
     delete("/user/:id", UserController, :delete)
+  end
+
+  pipeline :api do
+    plug(:accepts, ["json"])
+    plug(ProperCase.Plug.SnakeCaseParams)
   end
 
   scope "/", MockinWeb do
