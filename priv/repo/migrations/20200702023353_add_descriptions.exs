@@ -9,7 +9,7 @@ defmodule Mockin.Repo.Migrations.AddDescriptions do
     alter table(:route) do
       add(:description, :string, size: 60)
 
-      timestamps(inserted_at: :created_at)
+      timestamps(default: "now()", inserted_at: :created_at)
     end
   end
 
