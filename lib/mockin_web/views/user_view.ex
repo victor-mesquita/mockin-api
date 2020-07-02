@@ -23,7 +23,7 @@ defmodule MockinWeb.UserView do
     |> Map.from_struct()
     |> Map.put(:created_at, NaiveDateTime.to_iso8601(user.created_at))
     |> Map.put(:updated_at, NaiveDateTime.to_iso8601(user.updated_at))
-    |> Map.take([:id, :msisdn, :name, :created_at, :updated_at])
+    |> Map.take([:id, :msisdn, :description, :created_at, :updated_at])
     |> FormatHelpers.camelize()
   end
 
@@ -32,7 +32,7 @@ defmodule MockinWeb.UserView do
     |> Map.from_struct()
     |> Map.put(:created_at, NaiveDateTime.to_iso8601(user.created_at))
     |> Map.put(:updated_at, NaiveDateTime.to_iso8601(user.updated_at))
-    |> Map.take([:id, :msisdn, :name, :created_at, :updated_at])
+    |> Map.take([:id, :msisdn, :description, :created_at, :updated_at])
     |> FormatHelpers.camelize()
   end
 end

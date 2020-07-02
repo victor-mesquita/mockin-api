@@ -6,15 +6,18 @@ defmodule Mockin.Model.Route do
     use Ecto.Schema
     import Ecto.Changeset
 
-    @required_fields ~w(path http_method user_id status_code active response)a
+    @required_fields ~w(path http_method user_id status_code active response description)a
 
     schema "route" do
       field(:path, :string)
+      field(:description, :string)
       field(:status_code, :integer)
       field(:active, :boolean)
       field(:response, :string)
       field(:user_id, :integer)
       field(:http_method, :string)
+
+      timestamps(inserted_at: :created_at)
     end
 
     def changeset(user, attrs) do

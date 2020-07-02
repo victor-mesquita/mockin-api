@@ -7,11 +7,11 @@ defmodule Mockin.Model.User do
   import Ecto.Changeset
 
   @required_fields ~w(msisdn)a
-  @optional_fields ~w(name)a
+  @optional_fields ~w(description)a
 
   schema "user" do
     field(:msisdn, :string)
-    field(:name, :string)
+    field(:description, :string)
 
     has_many(:user_routes, Mockin.Model.Route, on_delete: :delete_all)
 

@@ -7,7 +7,7 @@ defmodule Mockin.Repository.Users do
   alias Mockin.Repo
   alias Mockin.Model.User
 
-  @default_routes_pagination_limit 10
+  @default_routes_pagination_limit 1000
 
   def get_user!(id), do: Repo.get!(User, id)
 
@@ -26,6 +26,7 @@ defmodule Mockin.Repository.Users do
     offset = params["offset"] || 0
 
     from(user in User, limit: ^limit, offset: ^offset)
+      |> order_by(:created_at)
       |> Repo.all
   end
 

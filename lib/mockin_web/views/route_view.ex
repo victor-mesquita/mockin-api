@@ -18,6 +18,7 @@ defmodule MockinWeb.RouteView do
     |> Map.take([
       :id,
       :path,
+      :description,
       :http_method,
       :status_code,
       :active,

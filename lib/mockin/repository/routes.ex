@@ -7,7 +7,7 @@ defmodule Mockin.Repository.Routes do
   alias Mockin.Repo
   alias Mockin.Model.{Route}
 
-  @default_pagination_limit 10
+  @default_pagination_limit 1000
   @default_offset 0
 
   def get_route!(id), do: Repo.get!(Route, id)
@@ -28,6 +28,7 @@ defmodule Mockin.Repository.Routes do
     user_id = params["user_id"]
 
     from(route in Route, where:  route.user_id == ^user_id, limit: ^limit, offset: ^offset)
+      |> order_by(:created_at)
       |> Repo.all
   end
 
