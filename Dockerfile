@@ -1,69 +1,51 @@
-#
-# Step 1 - build the OTP binary
-#
-FROM elixir:1.8-alpine AS builder
+# ---- Build Stage ----
+FROM elixir:alpine AS app_builder
 
-ARG APP_NAME
-ARG APP_VERSION
-ARG MIX_ENV=prod
+# Set environment variables for building the application
+ENV MIX_ENV=prod \
+    TEST=1 \
+    LANG=C.UTF-8
 
-ENV APP_NAME=${APP_NAME} \
-    APP_VERSION=${APP_VERSION} \
-    MIX_ENV=${MIX_ENV}
+RUN apk add --update git && \
+    rm -rf /var/cache/apk/*
 
-WORKDIR /build
+# Install hex and rebar
+RUN mix local.hex --force && \
+    mix local.rebar --force
 
-# This step installs all the build tools we'll need
-RUN apk update && \
-    apk upgrade --no-cache && \
-    apk add --no-cache nodejs~=10.14 npm~=10.14 git build-base
-RUN mix local.rebar --force && \
-    mix local.hex --force
+# Create the application build directory
+RUN mkdir /app
+WORKDIR /app
 
-# This copies our app source code into the build container
-COPY mix.* ./
-RUN mix deps.get --only ${MIX_ENV}
+# Copy over all the necessary application files and directories
+COPY config ./config
+COPY lib ./lib
+COPY priv ./priv
+COPY mix.exs .
+COPY mix.lock .
 
-COPY . .
-RUN mix compile
-
-RUN npm ci --prefix assets --no-audit --no-color --unsafe-perm
-
-# Compile assets and generate digest filenames
-RUN npm run --prefix assets deploy
+# Fetch the application dependencies and build the application
+RUN mix deps.get
+RUN mix deps.compile
 RUN mix phx.digest
+RUN mix release
 
-RUN mkdir -p /opt/build && \
-    mix release && \
-    cp -R _build/${MIX_ENV}/rel/${APP_NAME}/* /opt/build
+# ---- Application Stage ----
+FROM alpine AS app
 
-#
-# Step 2 - build a lean runtime container
-#
-FROM alpine:3.9
+ENV LANG=C.UTF-8
 
-ARG APP_NAME
-ENV APP_NAME=${APP_NAME}
+# Install openssl
+RUN apk add --update openssl ncurses-libs postgresql-client && \
+    rm -rf /var/cache/apk/*
 
-# Update kernel and install runtime dependencies
-RUN apk --no-cache update && \
-    apk --no-cache upgrade && \
-    apk --no-cache add bash openssl-dev erlang-crypto
+# Copy over the build artifact from the previous step and create a non root user
+RUN adduser -D -h /home/app app
+WORKDIR /home/app
+COPY --from=app_builder /app/_build .
+RUN chown -R app: ./prod
+USER app
 
-WORKDIR /opt/mockin
+COPY entrypoint.sh .
 
-# Copy the OTP binary from the build step
-COPY --from=builder /opt/build .
-
-# Copy the entrypoint script
-COPY priv/scripts/docker-entrypoint.sh /usr/local/bin
-RUN chmod a+x /usr/local/bin/docker-entrypoint.sh
-
-# Create a non-root user
-RUN adduser -D mockin && \
-    chown -R mockin: /opt/mockin
-
-USER mockin
-
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["start"]
+CMD ["./entrypoint.sh"]

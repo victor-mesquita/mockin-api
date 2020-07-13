@@ -1,27 +1,28 @@
 defmodule Mockin.Model.User do
-  @moduledoc """
-  The User model.
-  """
-
   use Ecto.Schema
-  import Ecto.Changeset
-
-  @required_fields ~w(msisdn)a
-  @optional_fields ~w(description)a
+  use Pow.Ecto.Schema
+  alias Mockin.Model.{Role}
 
   schema "user" do
-    field(:msisdn, :string)
-    field(:description, :string)
+    field :name, :string
+    field(:role_id, :integer, default: Role.roles[:admin])
 
-    has_many(:user_routes, Mockin.Model.Route, on_delete: :delete_all)
+    pow_user_fields()
 
-    timestamps(inserted_at: :created_at)
+    timestamps()
   end
 
-  def changeset(user, attrs) do
-    user
-    |> cast(attrs, @required_fields ++ @optional_fields)
-    |> validate_required(@required_fields)
-    |> unique_constraint(:msisdn, name: :user_msisdn_index)
+  def changeset(user_or_changeset, attrs) do
+    user_or_changeset
+    |> pow_changeset(attrs)
+    |> Ecto.Changeset.cast(attrs, [:name])
+    |> Ecto.Changeset.validate_required([:name])
+  end
+
+  @spec changeset_role(Ecto.Schema.t() | Ecto.Changeset.t(), map()) :: Ecto.Changeset.t()
+  def changeset_role(user_or_changeset, attrs) do
+    user_or_changeset
+    |> Ecto.Changeset.cast(attrs, [:role])
+    |> Ecto.Changeset.validate_inclusion(:role, ~w(1 2))
   end
 end

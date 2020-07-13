@@ -1,7 +1,7 @@
 defmodule MockinWeb.DynamicController do
   use MockinWeb, :controller
   alias Mockin.Repository.Routes
-  alias Mockin.Repository.Users
+  alias Mockin.Repository.MockUsers
 
   action_fallback(MockinWeb.FallbackController)
 
@@ -60,7 +60,7 @@ defmodule MockinWeb.DynamicController do
   def dynamicRouteResponse(conn, method) do
     path = conn.request_path
     msisdn = get_user_from_header(conn)
-    user = Users.get_by_msisdn(msisdn)
+    user = MockUsers.get_by_msisdn(msisdn)
 
     if user == nil do
       conn
