@@ -21,11 +21,11 @@ defmodule Mockin.Repository.MockUsers do
     Repo.delete(mock_user)
   end
 
-  def list(params) do
-    limit = params["limit"] || @default_routes_pagination_limit
-    offset = params["offset"] || 0
+  def list(project_id, pagination) do
+    limit = pagination["limit"] || @default_routes_pagination_limit
+    offset = pagination["offset"] || 0
 
-    from(mock_user in MockUser, limit: ^limit, offset: ^offset)
+    from(mock_user in MockUser, where: mock_user.project_id == ^project_id, limit: ^limit, offset: ^offset)
       |> order_by(:created_at)
       |> Repo.all
   end

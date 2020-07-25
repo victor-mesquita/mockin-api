@@ -20,6 +20,9 @@ defmodule MockinWeb.Router do
     resources "/session", SessionController, singleton: true, only: [:create, :delete]
     post "/session/renew", SessionController, :renew
 
+    post "/reset-password", ResetPasswordController, :create
+    post "/reset-password/update", ResetPasswordController, :update
+
     pipe_through :protected
 
     # Route routes
@@ -30,11 +33,17 @@ defmodule MockinWeb.Router do
     delete("/route/:id", RouteController, :delete)
 
     # MockUser routes
-    get("/mock-user/:id", MockUserController, :get)
-    get("/mock-user", MockUserController, :index)
+    get("/mock-user/:project_id/:id", MockUserController, :get)
+    get("/mock-user/:project_id", MockUserController, :index)
     post("/mock-user", MockUserController, :create)
     put("/mock-user", MockUserController, :update)
     delete("/mock-user/:id", MockUserController, :delete)
+
+    # Projects routes
+    get("/project/", ProjectController, :index)
+
+    # User routes
+    get("/user/", UserController, :get)
   end
 
   pipeline :api do
@@ -46,11 +55,11 @@ defmodule MockinWeb.Router do
     pipe_through(:api)
 
 
-    get "/*path", DynamicController, :get
-    post "/*path", DynamicController, :post
-    put "/*path", DynamicController, :put
-    patch "/*path", DynamicController, :patch
-    delete "/*path", DynamicController, :delete
+    get "/:project_unique_name/*path", DynamicController, :get
+    post "/:project_unique_name/*path", DynamicController, :post
+    put "/:project_unique_name/*path", DynamicController, :put
+    patch "/:project_unique_name/*path", DynamicController, :patch
+    delete "/:project_unique_name/*path", DynamicController, :delete
   end
 
 end

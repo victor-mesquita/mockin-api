@@ -1,6 +1,7 @@
 defmodule Mockin.Repository.Users do
+   import Ecto.Query, warn: false
     alias Mockin.{Repo, Model.User, Model.Role}
-  
+
     @type t :: %User{}
 
     @spec create_admin(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}

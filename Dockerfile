@@ -4,7 +4,8 @@ FROM elixir:alpine AS app_builder
 # Set environment variables for building the application
 ENV MIX_ENV=prod \
     TEST=1 \
-    LANG=C.UTF-8
+    LANG=C.UTF-8 \
+    SECRET_KEY_BASE=9ueg5YcX8/LKzVUcDrXp5xpYuaBCUfZZAJ3/udC1LCoabotR3O1CJyf/u/6RLJ/N
 
 RUN apk add --update git && \
     rm -rf /var/cache/apk/*
@@ -46,6 +47,7 @@ COPY --from=app_builder /app/_build .
 RUN chown -R app: ./prod
 USER app
 
-COPY entrypoint.sh .
+COPY --chown=app:app phoenix-prod.sh .
+RUN chmod +x /home/app/phoenix-prod.sh
 
-CMD ["./entrypoint.sh"]
+CMD ["./phoenix-prod.sh"]

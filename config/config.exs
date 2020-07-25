@@ -15,7 +15,8 @@ config :mockin, MockinWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "9ueg5YcX8/LKzVUcDrXp5xpYuaBCUfZZAJ3/udC1LCoabotR3O1CJyf/u/6RLJ/N",
   render_errors: [view: MockinWeb.ErrorView, accepts: ~w(json)],
-  pubsub_server: Mockin.PubSub
+  pubsub_server: Mockin.PubSub,
+  front_end_reset_password_url: "http://localhost:8080/#/reset-password/{token}"
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -25,8 +26,20 @@ config :logger, :console,
 config :mockin, :pow,
   user: Mockin.Model.User,
   repo: Mockin.Repo,
-  extensions: [PowEmailConfirmation],
-  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks
+  extensions: [PowEmailConfirmation, PowResetPassword],
+  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
+  mailer_backend: MockinWeb.Pow.Mailer,
+  web_mailer_module: MockinWeb
+
+config :mockin, MockinWeb.Pow.Mailer,
+  adapter: Bamboo.SMTPAdapter,
+  server: "mail.brq.com",
+  hostname: "brq.com",
+  port: 25,
+  ssl: false,
+  tls: :if_available,
+  no_mx_lookups: false,
+  auth: :if_available
 
 config :phoenix, :json_library, Jason
 

@@ -5,7 +5,8 @@ config :mockin, MockinWeb.Endpoint,
   http: [port: {:system, "PORT"}],
   url: [scheme: "https", host: "https://mockin.app/", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
-  secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE")
+  secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE"),
+  front_end_reset_password_url: "https://mockin.app/#/reset-password/{token}"
 
 config :logger, level: :info
 

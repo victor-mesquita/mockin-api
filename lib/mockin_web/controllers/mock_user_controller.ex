@@ -6,15 +6,17 @@ defmodule MockinWeb.MockUserController do
   action_fallback(MockinWeb.FallbackController)
 
   def index(conn, params) do
-    mock_users =
-      MockUsers.list(params)
+    project_id = params["project_id"]
+    pagination = Map.delete(params, :project_id)
+
+    mock_users = MockUsers.list(project_id, pagination)
 
     render(conn, "index.json", mock_users: mock_users)
   end
 
   def get(conn, params) do
-    mock_user =
-      MockUsers.get_user!(params["id"])
+    # params["project_id"]
+    mock_user = MockUsers.get_user!(params["id"])
 
     render(conn, "show_minimal.json", mock_user: mock_user)
   end
@@ -38,10 +40,9 @@ defmodule MockinWeb.MockUserController do
     end
   end
 
-  def create(conn, %{"mock_user" => mock_user_params }) do
+  def create(conn, %{"mock_user" => mock_user_params}) do
     case MockUsers.create_user(mock_user_params) do
       {:ok, mock_user} ->
-
         conn
         |> put_status(:created)
         |> render("show.json", mock_user: mock_user)

@@ -26,7 +26,7 @@ defmodule Mockin.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    [mod: {Mockin.Application, []}, extra_applications: [:logger, :runtime_tools]]
+    [mod: {Mockin.Application, []}, extra_applications: [:logger, :runtime_tools, :bamboo, :bamboo_smtp]]
   end
 
   # Specifies which paths to compile per environment.
@@ -54,7 +54,9 @@ defmodule Mockin.Mixfile do
       {:ex_doc, "~> 0.16", only: :dev, runtime: false},
       {:corsica, "~> 1.0"},
       {:better_params, "~> 0.5.0"},
-      {:pow, "~> 1.0.20"}
+      {:pow, "~> 1.0.20"},
+      {:bamboo, "~> 1.5"},
+      {:bamboo_smtp, "~> 2.1.0"}
     ]
   end
 

@@ -52,7 +52,10 @@ defmodule MockinWeb.Endpoint do
     )
   end
 
-  plug(Pow.Plug.Session, otp_app: :mockin)
+  # plug(MockinWeb.Pow.Plug, otp_app: :mockin)
+  plug Pow.Plug.Session, otp_app: :mockin,
+  session_ttl_renewal: :timer.hours(24),
+  credentials_cache_store: {Pow.Store.CredentialsCache, ttl: :timer.minutes(24)}
   plug(MockinWeb.Router)
 
   @doc """
