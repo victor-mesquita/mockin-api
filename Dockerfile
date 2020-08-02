@@ -49,5 +49,5 @@ USER app
 
 COPY --chown=app:app phoenix-prod.sh .
 RUN chmod +x /home/app/phoenix-prod.sh
-
+EXPOSE 4000
 CMD ["./phoenix-prod.sh"]
