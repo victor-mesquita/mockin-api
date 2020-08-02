@@ -16,7 +16,7 @@ spec:
         app: mockin-backend
     spec:
       containers:
-      - image: localhost:32000/mockin-mockin-backend:registry
+      - image: localhost:32000/mockin-backend:registry
         imagePullPolicy: IfNotPresent
         name: mockin-backend
         ports:
