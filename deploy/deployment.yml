@@ -2,23 +2,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: backend
-  name: backend
+    app: mockin-backend
+  name: mockin-backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend
+      app: mockin-backend
   strategy: {}
   template:
     metadata:
       labels:
-        app: backend
+        app: mockin-backend
     spec:
       containers:
-      - image: localhost:32000/mockin-backend:registry
+      - image: localhost:32000/mockin-mockin-backend:registry
         imagePullPolicy: IfNotPresent
-        name: backend
+        name: mockin-backend
         ports:
           - containerPort: 4000
         env:

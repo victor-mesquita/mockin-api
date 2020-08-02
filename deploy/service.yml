@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: backend
-  name: backend
+  creationTimestamp: null
+  name: mockin-service
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
-  - name: backend
+  - name: http
     port: 4000
     targetPort: 4000
-  selector:
-    app: backend
+    nodePort: 30001
+  selector: 
+    name: mockin-backend
 status:
   loadBalancer: {}
