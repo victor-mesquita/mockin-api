@@ -28,7 +28,7 @@ defmodule MockinWeb.Endpoint do
     Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Poison
+    json_decoder: Phoenix.json_library()
   )
 
   plug(Plug.MethodOverride)
@@ -52,6 +52,10 @@ defmodule MockinWeb.Endpoint do
     )
   end
 
+  # plug(MockinWeb.Pow.Plug, otp_app: :mockin)
+  plug Pow.Plug.Session, otp_app: :mockin,
+  session_ttl_renewal: :timer.hours(24),
+  credentials_cache_store: {Pow.Store.CredentialsCache, ttl: :timer.minutes(24)}
   plug(MockinWeb.Router)
 
   @doc """

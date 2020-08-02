@@ -3,7 +3,7 @@ services:
   application:
     image: mockin
     container_name: mockin
-    env_file: .env.dev
+    env_file: .env
     environment:
       - DATABASE_URL=postgres://postgres:development@postgresql/mockin_dev
     ports:

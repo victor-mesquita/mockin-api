@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  application:
+    image: mockin-backend
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    container_name: mockin-backend
+    env_file: .env
+    environment:
+      - DATABASE_URL=postgres://postgres:brqdigital@10.2.1.194/mockin
+    ports:
+      - 4000:4000

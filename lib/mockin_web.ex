@@ -23,6 +23,7 @@ defmodule MockinWeb do
       import Plug.Conn
       import MockinWeb.Router.Helpers
       import MockinWeb.Gettext
+      plug BetterParams
     end
   end
 
@@ -31,7 +32,7 @@ defmodule MockinWeb do
       use Phoenix.View,
         root: "lib/mockin_web/templates",
         namespace: MockinWeb
-
+      use Phoenix.HTML
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
 

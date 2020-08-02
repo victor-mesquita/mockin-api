@@ -18,7 +18,12 @@ defmodule MockinWeb.RouteView do
     |> Map.take([
       :id,
       :path,
-      :http_method
+      :description,
+      :http_method,
+      :status_code,
+      :active,
+      :response,
+      :user_id,
     ])
     |> FormatHelpers.camelize()
   end

@@ -1,69 +1,33 @@
-#
-# Step 1 - build the OTP binary
-#
-FROM elixir:1.8-alpine AS builder
+FROM elixir:alpine
 
-ARG APP_NAME
-ARG APP_VERSION
-ARG MIX_ENV=prod
+ENV MIX_ENV=prod \
+    TEST=1 \
+    LANG=C.UTF-8 \
+    SECRET_KEY_BASE=9ueg5YcX8/LKzVUcDrXp5xpYuaBCUfZZAJ3/udC1LCoabotR3O1CJyf/u/6RLJ/N
 
-ENV APP_NAME=${APP_NAME} \
-    APP_VERSION=${APP_VERSION} \
-    MIX_ENV=${MIX_ENV}
+RUN apk add --update git && \
+    rm -rf /var/cache/apk/*
 
-WORKDIR /build
+RUN mix local.hex --force && \
+    mix local.rebar --force
 
-# This step installs all the build tools we'll need
-RUN apk update && \
-    apk upgrade --no-cache && \
-    apk add --no-cache nodejs~=10.14 npm~=10.14 git build-base
-RUN mix local.rebar --force && \
-    mix local.hex --force
+RUN mkdir /app
+WORKDIR /app
 
-# This copies our app source code into the build container
-COPY mix.* ./
-RUN mix deps.get --only ${MIX_ENV}
+COPY config ./config
+COPY lib ./lib
+COPY priv ./priv
+COPY mix.exs .
+COPY mix.lock .
+COPY phoenix-prod.sh .
 
-COPY . .
-RUN mix compile
+RUN mix deps.get
+RUN mix deps.compile
+RUN mix release
+RUN mix compile.protocols
 
-RUN npm ci --prefix assets --no-audit --no-color --unsafe-perm
+RUN chmod +x /app/phoenix-prod.sh
 
-# Compile assets and generate digest filenames
-RUN npm run --prefix assets deploy
-RUN mix phx.digest
+EXPOSE 4000
 
-RUN mkdir -p /opt/build && \
-    mix release && \
-    cp -R _build/${MIX_ENV}/rel/${APP_NAME}/* /opt/build
-
-#
-# Step 2 - build a lean runtime container
-#
-FROM alpine:3.9
-
-ARG APP_NAME
-ENV APP_NAME=${APP_NAME}
-
-# Update kernel and install runtime dependencies
-RUN apk --no-cache update && \
-    apk --no-cache upgrade && \
-    apk --no-cache add bash openssl-dev erlang-crypto
-
-WORKDIR /opt/mockin
-
-# Copy the OTP binary from the build step
-COPY --from=builder /opt/build .
-
-# Copy the entrypoint script
-COPY priv/scripts/docker-entrypoint.sh /usr/local/bin
-RUN chmod a+x /usr/local/bin/docker-entrypoint.sh
-
-# Create a non-root user
-RUN adduser -D mockin && \
-    chown -R mockin: /opt/mockin
-
-USER mockin
-
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["start"]
+CMD ["./phoenix-prod.sh"]

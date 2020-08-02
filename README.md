@@ -16,3 +16,10 @@ mix phx.server
 mix test
 
 ```
+
+# Interactive console
+```
+iex -S mix 
+or
+iex -S mix phx.server
+```
