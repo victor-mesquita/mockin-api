@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mockin-backend
+  name: mockin-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mockin-backend
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: mockin-backend
+    spec:
+      containers:
+      - image: localhost:32000/mockin-backend:registry
+        imagePullPolicy: IfNotPresent
+        name: mockin-backend
+        ports:
+          - containerPort: 4000
+        env:
+          - name: SECRET_KEY_BASE
+            value: "9ueg5YcX8/LKzVUcDrXp5xpYuaBCUfZZAJ3/udC1LCoabotR3O1CJyf/u/6RLJ/N^C"
+          - name: MIX_ENV
+            value: "prod"
+          - name: DATABASE_URL
+            value: "postgres://postgres:brqdigital@10.2.1.194/mockin"
+          - name: DATABASE_POOL_SIZE
+            value: "20"
+          - name: APP_PORT
+            value: "4000"
+status: {}

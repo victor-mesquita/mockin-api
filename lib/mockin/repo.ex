@@ -1,5 +1,6 @@
 defmodule Mockin.Repo do
-  use Ecto.Repo, otp_app: :mockin
+  use Ecto.Repo, otp_app: :mockin,
+    adapter: Ecto.Adapters.Postgres
 
   @doc """
   Dynamically loads the repository url from the

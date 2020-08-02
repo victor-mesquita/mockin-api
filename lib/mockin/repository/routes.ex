@@ -12,8 +12,8 @@ defmodule Mockin.Repository.Routes do
 
   def get_route!(id), do: Repo.get!(Route, id)
 
-  def get_route(path, http_method, user_id) do
-    from(route in Route, where: route.path == ^path and route.http_method == ^http_method and route.user_id == ^user_id)
+  def get_route(path, http_method, user_id, project_id) do
+    from(route in Route, where: route.path == ^path and route.http_method == ^http_method and route.mock_user_id == ^user_id and route.project_id == ^project_id)
     |> Repo.all
     |> List.first
   end
@@ -27,7 +27,7 @@ defmodule Mockin.Repository.Routes do
     offset = params["offset"] || @default_offset
     user_id = params["user_id"]
 
-    from(route in Route, where:  route.user_id == ^user_id, limit: ^limit, offset: ^offset)
+    from(route in Route, where:  route.mock_user_id == ^user_id, limit: ^limit, offset: ^offset)
       |> order_by(:created_at)
       |> Repo.all
   end

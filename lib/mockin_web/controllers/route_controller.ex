@@ -2,12 +2,12 @@ defmodule MockinWeb.RouteController do
   use MockinWeb, :controller
 
   alias Mockin.Repository.Routes
-  alias Mockin.Repository.Users
+  alias Mockin.Repository.MockUsers
 
   action_fallback(MockinWeb.FallbackController)
 
   def index(conn, params) do
-    user = Users.get_by_msisdn(params["msisdn"])
+    user = MockUsers.get_by_msisdn(params["msisdn"])
 
     params = Map.put(params, "user_id", user.id)
 

@@ -5,7 +5,7 @@ defmodule Mockin.Mixfile do
     [
       app: :mockin,
       version: "1.0.0",
-      elixir: "~> 1.8",
+      elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -26,7 +26,7 @@ defmodule Mockin.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    [mod: {Mockin.Application, []}, extra_applications: [:logger, :runtime_tools, :comeonin]]
+    [mod: {Mockin.Application, []}, extra_applications: [:logger, :runtime_tools, :bamboo, :bamboo_smtp]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,23 +38,25 @@ defmodule Mockin.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0"},
-      {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_ecto, "~> 3.2"},
-      {:postgrex, "~> 0.13.3"},
+      {:phoenix, "~> 1.5.3"},
+      {:phoenix_ecto, "~> 4.1"},
+      {:ecto_sql, "~> 3.4"},
+      {:phoenix_pubsub, "~> 2.0"},
+      {:postgrex, "~> 0.15.5"},
+      {:jason, "~> 1.2"},
       {:gettext, "~> 0.11"},
       {:proper_case, "~> 1.0.0"},
-      {:cowboy, "~> 1.1"},
-      {:plug_cowboy, "~> 1.0"},
-      {:comeonin, "~> 3.2"},
-      {:guardian, "~> 1.0"},
+      {:cowboy, "~> 2.8"},
+      {:plug_cowboy, "~> 2.0"},
       {:excoveralls, "~> 0.7", only: [:dev, :test]},
       {:credo, "~> 0.8.5", only: [:dev, :test]},
       {:ex_machina, "~> 2.0", only: :test},
       {:ex_doc, "~> 0.16", only: :dev, runtime: false},
-      {:plug, "~> 1.0"},
       {:corsica, "~> 1.0"},
-      {:better_params, "~> 0.5.0"}
+      {:better_params, "~> 0.5.0"},
+      {:pow, "~> 1.0.20"},
+      {:bamboo, "~> 1.5"},
+      {:bamboo_smtp, "~> 2.1.0"}
     ]
   end
 

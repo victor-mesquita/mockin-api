@@ -1,45 +1,21 @@
 defmodule Mockin.Repository.Users do
-  @moduledoc """
-  The boundry for the Users system
-  """
+   import Ecto.Query, warn: false
+    alias Mockin.{Repo, Model.User, Model.Role}
 
-  import Ecto.Query, warn: false
-  alias Mockin.Repo
-  alias Mockin.Model.User
+    @type t :: %User{}
 
-  @default_routes_pagination_limit 1000
-
-  def get_user!(id), do: Repo.get!(User, id)
-
-  def get_by_msisdn(msisdn) do
-    from(user in User, where: user.msisdn == ^msisdn)
-    |> Repo.all
-    |> List.first
+    @spec create_admin(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
+    def create_admin(params) do
+      %User{}
+      |> User.changeset(params)
+      |> User.changeset_role(%{role: Role.roles()[:admin]})
+      |> Repo.insert()
+    end
+  
+    @spec set_admin_role(t()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
+    def set_admin_role(user) do
+      user
+      |> User.changeset_role(%{role: Role.roles()[:admin]})
+      |> Repo.update()
+    end
   end
-
-  def delete_user(user) do
-    Repo.delete(user)
-  end
-
-  def list(params) do
-    limit = params["limit"] || @default_routes_pagination_limit
-    offset = params["offset"] || 0
-
-    from(user in User, limit: ^limit, offset: ^offset)
-      |> order_by(:created_at)
-      |> Repo.all
-  end
-
-  def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
-  end
-
-
-  def update_user(user, attrs) do
-    user
-    |> User.changeset(attrs)
-    |> Repo.update()
-  end
-end

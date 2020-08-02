@@ -8,29 +8,40 @@ use Mix.Config
 # General application configuration
 config :mockin, ecto_repos: [Mockin.Repo]
 
+config :mockin, MockinWeb.Gettext, locales: ~w(en pt_BR), default_locale: "pt_BR"
+
 # Configures the endpoint
 config :mockin, MockinWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "9ueg5YcX8/LKzVUcDrXp5xpYuaBCUfZZAJ3/udC1LCoabotR3O1CJyf/u/6RLJ/N",
   render_errors: [view: MockinWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: Mockin.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub_server: Mockin.PubSub,
+  front_end_reset_password_url: "http://localhost:8080/#/reset-password/{token}"
 
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :mockin, MockinWeb.Guardian,
-  issuer: "Mockin",
-  secret_key: "MDLMflIpKod5YCnkdiY7C4E3ki2rgcAAMwfBl0+vyC5uqJNgoibfQmAh7J3uZWVK",
-  # optional
-  allowed_algos: ["HS256"],
-  ttl: {30, :days},
-  allowed_drift: 2000,
-  verify_issuer: true
+config :mockin, :pow,
+  user: Mockin.Model.User,
+  repo: Mockin.Repo,
+  extensions: [PowEmailConfirmation, PowResetPassword],
+  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
+  mailer_backend: MockinWeb.Pow.Mailer,
+  web_mailer_module: MockinWeb
 
-# Configure bcrypt for passwords
-config :comeonin, :bcrypt_log_rounds, 4
+config :mockin, MockinWeb.Pow.Mailer,
+  adapter: Bamboo.SMTPAdapter,
+  server: "mail.brq.com",
+  hostname: "brq.com",
+  port: 25,
+  ssl: false,
+  tls: :if_available,
+  no_mx_lookups: false,
+  auth: :if_available
+
+config :phoenix, :json_library, Jason
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

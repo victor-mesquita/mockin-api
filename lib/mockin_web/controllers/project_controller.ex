@@ -1,11 +1,12 @@
-defmodule MockinWeb.UserController do
+defmodule MockinWeb.ProjectController do
   use MockinWeb, :controller
 
+  alias Mockin.Repository.Projects
   alias MockinWeb.APIAuthPlug
 
   action_fallback(MockinWeb.FallbackController)
 
-  def get(conn, _) do
+  def index(conn, _) do
     config = Pow.Plug.fetch_config(conn)
     conn
     |> APIAuthPlug.fetch(config)
@@ -16,9 +17,12 @@ defmodule MockinWeb.UserController do
         |> json(%{error: %{status: 401, message: "Token inválido"}})
 
       {conn, user} ->
+        projects = user.id
+        |> Projects.list_user_projects
+
         conn
         |> put_status(200)
-        |> render("show.json", user: user)
+        |> render("index.json", projects: projects)
     end
   end
 end
