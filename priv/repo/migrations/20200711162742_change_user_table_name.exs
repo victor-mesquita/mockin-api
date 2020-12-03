@@ -16,6 +16,5 @@ defmodule Mockin.Repo.Migrations.ChangeUserTableName do
     end
 
     create(unique_index(:route, [:path, :http_method, :mock_user_id], name: :route_path_http_method_mock_user_id_index))
-    create(unique_index(:mock_user, [:msisdn]))
   end
 end
