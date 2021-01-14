@@ -67,8 +67,10 @@ defmodule MockinWeb.DynamicController do
 
   def dynamicRouteResponse(conn, method, project_unique_name) do
     path =
-      conn.request_path
+      current_url(conn)
       |> String.replace("/#{project_unique_name}", "")
+      |> String.replace("#{conn.host}:#{conn.port}", "")
+      |> String.replace("#{Atom.to_string(conn.scheme)}://", "")
 
     msisdn = get_user_from_header(conn)
     project = Projects.get_project_by_unique_name!(project_unique_name)
