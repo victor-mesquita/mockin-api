@@ -23,3 +23,6 @@ iex -S mix
 or
 iex -S mix phx.server
 ```
+
+docker build . -t mockin-backend:v0.0.x
+docker service update mockin_application --image mockin-backend:v0.0.x
