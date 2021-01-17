@@ -7,7 +7,8 @@ defmodule MockinWeb.RouteController do
   action_fallback(MockinWeb.FallbackController)
 
   def index(conn, params) do
-    user = MockUsers.get_by_msisdn(params["msisdn"])
+    project_id = params["project_id"]
+    user = MockUsers.get_by_msisdn_project_id(params["msisdn"], project_id)
 
     params = Map.put(params, "user_id", user.id)
 

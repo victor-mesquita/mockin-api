@@ -11,8 +11,8 @@ defmodule Mockin.Repository.MockUsers do
 
   def get_user!(id), do: Repo.get!(MockUser, id)
 
-  def get_by_msisdn(msisdn) do
-    from(mock_user in MockUser, where: mock_user.msisdn == ^msisdn)
+  def get_by_msisdn_project_id(msisdn, project_id) do
+    from(mock_user in MockUser, where: mock_user.msisdn == ^msisdn and mock_user.project_id == ^project_id)
     |> Repo.all
     |> List.first
   end

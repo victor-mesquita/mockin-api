@@ -67,12 +67,12 @@ defmodule MockinWeb.DynamicController do
 
   def dynamicRouteResponse(conn, method, project_unique_name) do
     path =
-      conn.request_path
+      current_path(conn)
       |> String.replace("/#{project_unique_name}", "")
 
     msisdn = get_user_from_header(conn)
-    user = MockUsers.get_by_msisdn(msisdn)
     project = Projects.get_project_by_unique_name!(project_unique_name)
+    user = MockUsers.get_by_msisdn_project_id(msisdn, project.id)
 
     if user == nil or project == nil do
       conn
